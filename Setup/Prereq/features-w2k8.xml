@@ -1,0 +1,1217 @@
+<Objs Version="1.1.0.1" xmlns="http://schemas.microsoft.com/powershell/2004/04">
+  <Obj RefId="0">
+    <TN RefId="0">
+      <T>Microsoft.Windows.ServerManager.Commands.Feature</T>
+      <T>System.Object</T>
+    </TN>
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">TCP Activation</S>
+      <S N="Name">AS-TCP-Activation</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Application Server\Windows Process Activation Service Support\TCP Activation</S>
+      <I32 N="Depth">3</I32>
+      <Obj N="DependsOn" RefId="1">
+        <TN RefId="1">
+          <T>System.String[]</T>
+          <T>System.Array</T>
+          <T>System.Object</T>
+        </TN>
+        <LST>
+          <S>AS-NET-Framework</S>
+          <S>AS-TCP-Port-Sharing</S>
+          <S>NET-Non-HTTP-Activ</S>
+        </LST>
+      </Obj>
+      <S N="Parent">AS-WAS-Support</S>
+      <Obj N="SubFeatures" RefId="2">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="3">
+        <TNRef RefId="1" />
+        <LST>
+          <S>NetTcpActivator*</S>
+        </LST>
+      </Obj>
+      <Obj N="Notification" RefId="4">
+        <TN RefId="2">
+          <T>Microsoft.Windows.ServerManager.Commands.Notification[]</T>
+          <T>System.Array</T>
+          <T>System.Object</T>
+        </TN>
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="5">
+        <TN RefId="3">
+          <T>System.Collections.Hashtable</T>
+          <T>System.Object</T>
+        </TN>
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">237</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="6">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Named Pipes Activation</S>
+      <S N="Name">AS-Named-Pipes</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Application Server\Windows Process Activation Service Support\Named Pipes Activation</S>
+      <I32 N="Depth">3</I32>
+      <Obj N="DependsOn" RefId="7">
+        <TNRef RefId="1" />
+        <LST>
+          <S>AS-NET-Framework</S>
+          <S>NET-Non-HTTP-Activ</S>
+        </LST>
+      </Obj>
+      <S N="Parent">AS-WAS-Support</S>
+      <Obj N="SubFeatures" RefId="8">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="9">
+        <TNRef RefId="1" />
+        <LST>
+          <S>NetPipeActivator*</S>
+        </LST>
+      </Obj>
+      <Obj N="Notification" RefId="10">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="11">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">238</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="12">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Static Content</S>
+      <S N="Name">Web-Static-Content</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Common HTTP Features\Static Content</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="13">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-Common-Http</S>
+      <Obj N="SubFeatures" RefId="14">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="15">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="16">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="17">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">142</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="18">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Default Document</S>
+      <S N="Name">Web-Default-Doc</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Common HTTP Features\Default Document</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="19">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-Common-Http</S>
+      <Obj N="SubFeatures" RefId="20">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="21">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="22">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="23">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">143</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="24">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Directory Browsing</S>
+      <S N="Name">Web-Dir-Browsing</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Common HTTP Features\Directory Browsing</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="25">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-Common-Http</S>
+      <Obj N="SubFeatures" RefId="26">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="27">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="28">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="29">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">144</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="30">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">HTTP Errors</S>
+      <S N="Name">Web-Http-Errors</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Common HTTP Features\HTTP Errors</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="31">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-Common-Http</S>
+      <Obj N="SubFeatures" RefId="32">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="33">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="34">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="35">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">145</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="36">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">ASP.NET</S>
+      <S N="Name">Web-Asp-Net</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Application Development\ASP.NET</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="37">
+        <TNRef RefId="1" />
+        <LST>
+          <S>Web-Default-Doc</S>
+          <S>Web-ISAPI-Filter</S>
+          <S>Web-ISAPI-Ext</S>
+          <S>Web-Net-Ext</S>
+        </LST>
+      </Obj>
+      <S N="Parent">Web-App-Dev</S>
+      <Obj N="SubFeatures" RefId="38">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="39">
+        <TNRef RefId="1" />
+        <LST>
+          <S>aspnet_state</S>
+        </LST>
+      </Obj>
+      <Obj N="Notification" RefId="40">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="41">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">148</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="42">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">.NET Extensibility</S>
+      <S N="Name">Web-Net-Ext</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Application Development\.NET Extensibility</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="43">
+        <TNRef RefId="1" />
+        <LST>
+          <S>Web-Filtering</S>
+        </LST>
+      </Obj>
+      <S N="Parent">Web-App-Dev</S>
+      <Obj N="SubFeatures" RefId="44">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="45">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="46">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="47">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">149</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="48">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">ISAPI Extensions</S>
+      <S N="Name">Web-ISAPI-Ext</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Application Development\ISAPI Extensions</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="49">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-App-Dev</S>
+      <Obj N="SubFeatures" RefId="50">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="51">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="52">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="53">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">152</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="54">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">ISAPI Filters</S>
+      <S N="Name">Web-ISAPI-Filter</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Application Development\ISAPI Filters</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="55">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-App-Dev</S>
+      <Obj N="SubFeatures" RefId="56">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="57">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="58">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="59">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">153</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="60">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Server Side Includes</S>
+      <S N="Name">Web-Includes</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Application Development\Server Side Includes</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="61">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-App-Dev</S>
+      <Obj N="SubFeatures" RefId="62">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="63">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="64">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="65">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">154</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="66">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">HTTP Logging</S>
+      <S N="Name">Web-Http-Logging</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Health and Diagnostics\HTTP Logging</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="67">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-Health</S>
+      <Obj N="SubFeatures" RefId="68">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="69">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="70">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="71">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">156</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="72">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Request Monitor</S>
+      <S N="Name">Web-Request-Monitor</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Health and Diagnostics\Request Monitor</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="73">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-Health</S>
+      <Obj N="SubFeatures" RefId="74">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="75">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="76">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="77">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">158</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="78">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Basic Authentication</S>
+      <S N="Name">Web-Basic-Auth</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Security\Basic Authentication</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="79">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-Security</S>
+      <Obj N="SubFeatures" RefId="80">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="81">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="82">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="83">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">163</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="84">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Windows Authentication</S>
+      <S N="Name">Web-Windows-Auth</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Security\Windows Authentication</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="85">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-Security</S>
+      <Obj N="SubFeatures" RefId="86">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="87">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="88">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="89">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">164</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="90">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Client Certificate Mapping Authentication</S>
+      <S N="Name">Web-Client-Auth</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Security\Client Certificate Mapping Authentication</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="91">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-Security</S>
+      <Obj N="SubFeatures" RefId="92">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="93">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="94">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="95">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">166</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="96">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">URL Authorization</S>
+      <S N="Name">Web-Url-Auth</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Security\URL Authorization</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="97">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-Security</S>
+      <Obj N="SubFeatures" RefId="98">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="99">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="100">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="101">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">168</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="102">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Request Filtering</S>
+      <S N="Name">Web-Filtering</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Security\Request Filtering</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="103">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-Security</S>
+      <Obj N="SubFeatures" RefId="104">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="105">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="106">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="107">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">169</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="108">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">IP and Domain Restrictions</S>
+      <S N="Name">Web-IP-Security</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Security\IP and Domain Restrictions</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="109">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-Security</S>
+      <Obj N="SubFeatures" RefId="110">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="111">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="112">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="113">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">170</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="114">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Static Content Compression</S>
+      <S N="Name">Web-Stat-Compression</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Web Server\Performance\Static Content Compression</S>
+      <I32 N="Depth">4</I32>
+      <Obj N="DependsOn" RefId="115">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-Performance</S>
+      <Obj N="SubFeatures" RefId="116">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="117">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="118">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="119">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">172</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="120">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">IIS Management Console</S>
+      <S N="Name">Web-Mgmt-Console</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Management Tools\IIS Management Console</S>
+      <I32 N="Depth">3</I32>
+      <Obj N="DependsOn" RefId="121">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-Mgmt-Tools</S>
+      <Obj N="SubFeatures" RefId="122">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="123">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="124">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="125">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">175</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="126">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">IIS Management Scripts and Tools</S>
+      <S N="Name">Web-Scripting-Tools</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Role Service</S>
+      <S N="Path">Web Server (IIS)\Management Tools\IIS Management Scripts and Tools</S>
+      <I32 N="Depth">3</I32>
+      <Obj N="DependsOn" RefId="127">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">Web-Mgmt-Tools</S>
+      <Obj N="SubFeatures" RefId="128">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="129">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="130">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="131">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">176</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="132">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">.NET Framework 3.5.1</S>
+      <S N="Name">NET-Framework-Core</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Feature</S>
+      <S N="Path">.NET Framework 3.5.1 Features\.NET Framework 3.5.1</S>
+      <I32 N="Depth">2</I32>
+      <Obj N="DependsOn" RefId="133">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">NET-Framework</S>
+      <Obj N="SubFeatures" RefId="134">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="135">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="136">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="137">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">220</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="138">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">HTTP Activation</S>
+      <S N="Name">NET-HTTP-Activation</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Feature</S>
+      <S N="Path">.NET Framework 3.5.1 Features\WCF Activation\HTTP Activation</S>
+      <I32 N="Depth">3</I32>
+      <Obj N="DependsOn" RefId="139">
+        <TNRef RefId="1" />
+        <LST>
+          <S>NET-Framework-Core</S>
+          <S>Web-Net-Ext</S>
+          <S>WAS-Process-Model</S>
+          <S>WAS-NET-Environment</S>
+          <S>WAS-Config-APIs</S>
+        </LST>
+      </Obj>
+      <S N="Parent">NET-Win-CFAC</S>
+      <Obj N="SubFeatures" RefId="140">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="141">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="142">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="143">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">222</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="144">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Non-HTTP Activation</S>
+      <S N="Name">NET-Non-HTTP-Activ</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Feature</S>
+      <S N="Path">.NET Framework 3.5.1 Features\WCF Activation\Non-HTTP Activation</S>
+      <I32 N="Depth">3</I32>
+      <Obj N="DependsOn" RefId="145">
+        <TNRef RefId="1" />
+        <LST>
+          <S>NET-Framework-Core</S>
+          <S>WAS-Process-Model</S>
+          <S>WAS-NET-Environment</S>
+          <S>WAS-Config-APIs</S>
+        </LST>
+      </Obj>
+      <S N="Parent">NET-Win-CFAC</S>
+      <Obj N="SubFeatures" RefId="146">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="147">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="148">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="149">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">223</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="150">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Web Server (IIS) Tools</S>
+      <S N="Name">RSAT-Web-Server</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Feature</S>
+      <S N="Path">Remote Server Administration Tools\Role Administration Tools\Web Server (IIS) Tools</S>
+      <I32 N="Depth">3</I32>
+      <Obj N="DependsOn" RefId="151">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">RSAT-Role-Tools</S>
+      <Obj N="SubFeatures" RefId="152">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="153">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="154">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="155">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">281</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="156">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Windows PowerShell Integrated Scripting Environment (ISE)</S>
+      <S N="Name">PowerShell-ISE</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Feature</S>
+      <S N="Path">Windows PowerShell Integrated Scripting Environment (ISE)</S>
+      <I32 N="Depth">1</I32>
+      <Obj N="DependsOn" RefId="157">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent"></S>
+      <Obj N="SubFeatures" RefId="158">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="159">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="160">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="161">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">351</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="162">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Process Model</S>
+      <S N="Name">WAS-Process-Model</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Feature</S>
+      <S N="Path">Windows Process Activation Service\Process Model</S>
+      <I32 N="Depth">2</I32>
+      <Obj N="DependsOn" RefId="163">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">WAS</S>
+      <Obj N="SubFeatures" RefId="164">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="165">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="166">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="167">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">219</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="168">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">.NET Environment</S>
+      <S N="Name">WAS-NET-Environment</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Feature</S>
+      <S N="Path">Windows Process Activation Service\.NET Environment</S>
+      <I32 N="Depth">2</I32>
+      <Obj N="DependsOn" RefId="169">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">WAS</S>
+      <Obj N="SubFeatures" RefId="170">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="171">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="172">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="173">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">218</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+  <Obj RefId="174">
+    <TNRef RefId="0" />
+    <ToString>Microsoft.Windows.ServerManager.Commands.Feature</ToString>
+    <Props>
+      <S N="DisplayName">Configuration APIs</S>
+      <S N="Name">WAS-Config-APIs</S>
+      <B N="Installed">true</B>
+      <S N="FeatureType">Feature</S>
+      <S N="Path">Windows Process Activation Service\Configuration APIs</S>
+      <I32 N="Depth">2</I32>
+      <Obj N="DependsOn" RefId="175">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <S N="Parent">WAS</S>
+      <Obj N="SubFeatures" RefId="176">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="SystemService" RefId="177">
+        <TNRef RefId="1" />
+        <LST />
+      </Obj>
+      <Obj N="Notification" RefId="178">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <Nil N="BestPracticesModelId" />
+      <Obj N="AdditionalInfo" RefId="179">
+        <TNRef RefId="3" />
+        <DCT>
+          <En>
+            <S N="Key">NumericId</S>
+            <I32 N="Value">217</I32>
+          </En>
+        </DCT>
+      </Obj>
+    </Props>
+  </Obj>
+</Objs>
