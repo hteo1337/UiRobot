@@ -68,7 +68,7 @@
         }
     },
     "variables": {
-        "scriptUriBase": "https://raw.githubusercontent.com/UiPath/DevOps/master/Setup/Install-UiPath.ps1",
+        "scriptUriBase": "https://raw.githubusercontent.com/hteo1337/UiRobot/master/Setup/Install-UiPath.ps1",
         "vmName": "[parameters('virtualMachineName')]",
         "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
         "osDiskType": "StandardSSD_LRS",
