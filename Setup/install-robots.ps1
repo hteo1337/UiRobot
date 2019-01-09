@@ -24,6 +24,18 @@ function Main {
 
     start-process -filepath $robotExePath -verb runas
 
+
+    $HostingType = 'Standard'
+    $RobotType = 'Attended'
+
+
+    if ($setupOrchLink -eq 'Yes') {
+			$perfConnect = ConnectTo-Orchestrator-Perf -orchestratorUrl $orchestratorUrl -robotExePath $robotExePath -tennant $tennant -adminUsername $adminUsername -orchPassword $orchPassword -HostingType $HostingType -RobotType $RobotType
+        }
+
+
+
+
     #remove temp directory
     Write-Verbose "Removing temp directory $($script:tempDirectory)"
     Remove-Item $script:tempDirectory -Recurse -Force | Out-Null
@@ -76,6 +88,29 @@ function Invoke-MSIExec {
     $process = Start-Process "msiexec" -ArgumentList $msiExecArgs -Wait -PassThru
 
     return $process
+}
+
+<#
+.DESCRIPTION
+Gets the path to the UiRobot.exe file
+
+.PARAMETER community
+Whether to search for the UiPath Studio Community edition executable
+#>
+function Get-UiRobotExePath {
+
+    param(
+        [switch] $community
+    )
+
+    $robotExePath = [System.IO.Path]::Combine(${ENV:ProgramFiles(x86)}, "UiPath", "Studio", "UiRobot.exe")
+
+    if ($community) {
+        $robotExePath = Get-ChildItem ([System.IO.Path]::Combine($ENV:LOCALAPPDATA, "UiPath")) -Recurse -Include "UiRobot.exe" | `
+            Select-Object -ExpandProperty FullName -Last 1
+    }
+
+    return $robotExePath
 }
 
 
@@ -175,6 +210,76 @@ function ConnectTo-Orchestrator {
 
     return $connectionResult
 }
+
+function ConnectTo-Orchestrator-Perf {
+
+    param(
+        [Parameter(Mandatory = $true)]
+        [string] $robotExePath,
+
+        [Parameter()]
+        [AllowEmptyString()]
+        [string] $orchestratorUrl,
+
+		[Parameter()]
+        [AllowEmptyString()]
+        [string] $Tennant,
+
+		[Parameter()]
+        [AllowEmptyString()]
+        [string] $adminUsername,
+
+		[Parameter()]
+        [AllowEmptyString()]
+        [string] $orchPassword,
+
+		[Parameter()]
+        [AllowEmptyString()]
+        [string] $HostingType,
+
+		[Parameter()]
+        [AllowEmptyString()]
+        [string] $RobotType
+
+    )
+
+    if (!(Test-Path $robotExePath)) {
+        throw "No UiRobot.exe file found at '$robotExePath'"
+    }
+
+	$dataLogin = @{
+       tenancyName = $Tennant
+       usernameOrEmailAddress = $adminUsername
+       password = $orchPassword
+       rememberMe = $true
+       } | ConvertTo-Json
+   Write-Host "**********************"
+   $orchUrl_login = "$orchestratorUrl/account/login"
+   Write-Host $orchUrl_login
+
+   # login API call to get the login session used for all requests
+   $webresponse = Invoke-WebRequest -Uri $orchUrl_login -Method Post -Body $dataLogin -ContentType "application/json" -UseBasicParsing -Session websession
+
+
+   $cookies = $websession.Cookies.GetCookies($orchUrl_login)
+
+   $dataRobot = @{
+    MachineName = $env:computername
+    Username = $adminUsername
+    Type = $RobotType
+    HostingType = $HostingType
+    Password = $orchPassword
+    Name = $env:computername
+    ExecutionSettings=@{}} | ConvertTo-Json
+
+    $orch_bot = "$orchestratorUrl/odata/Robots"
+    Write-Host $orch_bot
+
+    $webresponse = Invoke-RestMethod -Uri $orch_bot -Method Post -Body $dataRobot -ContentType "application/json" -UseBasicParsing -WebSession $websession
+    $key = $webresponse.LicenseKey
+    Write-Host $key
+    &    $robotExePath --connect -url  $orchestratorUrl -key $key
+	}
 
 
 Main
