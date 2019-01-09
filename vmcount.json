@@ -27,19 +27,26 @@
                 "description": "Orchestrator URL."
             }
         },
-		"orchPassword": {
+        "orchAdmin": {
+            "type": "string",
+            "defaultValue": "admin",
+            "metadata": {
+                "description": "User admin of the orchestrator."
+            }
+        },
+        "orchPassword": {
             "type": "string",
             "defaultValue": "",
             "metadata": {
-              "description": "Password for the orchestrator."
+                "description": "Password for the orchestrator."
             }
-          },
+        },
         "tennant": {
             "type": "string",
             "defaultValue": "default",
             "metadata": {
                 "description": "Orch Tennant"
-          }
+            }
         },
         "virtualMachineName": {
             "type": "String",
@@ -95,7 +102,7 @@
         "scriptFileBreakString": "[split(variables('scriptFileString'), '?')]",
         "scriptFileName": "[variables('scriptFileBreakString')[0]]",
         "nexecuteScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFileName'),' ',' -beta')]",
-        "executeScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFileName'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('Tennant'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ','Standard',' ','-RobotType',' ','Attended',' ','-adminUsername',' ',parameters('adminUsername'),' -beta')]"
+        "executeScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFileName'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('Tennant'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ','Standard',' ','-RobotType',' ','Attended',' ','-adminUsername',' ',parameters('orchAdmin'),' -beta')]"
     },
     "resources": [
         {

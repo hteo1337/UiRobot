@@ -28,10 +28,8 @@ function Main {
     $HostingType = 'Standard'
     $RobotType = 'Attended'
 
+	$roboConnect = ConnectTo-Orchestrator-Perf -orchestratorUrl $orchestratorUrl -robotExePath $robotExePath -tennant $tennant -adminUsername $adminUsername -orchPassword $orchPassword -HostingType $HostingType -RobotType $RobotType
 
-    if ($setupOrchLink -eq 'Yes') {
-			$perfConnect = ConnectTo-Orchestrator-Perf -orchestratorUrl $orchestratorUrl -robotExePath $robotExePath -tennant $tennant -adminUsername $adminUsername -orchPassword $orchPassword -HostingType $HostingType -RobotType $RobotType
-        }
 
 
 
