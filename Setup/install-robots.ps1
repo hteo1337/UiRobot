@@ -6,12 +6,12 @@ function Main {
     #download UiPlatform
     $msiName = 'UiPathPlatform.msi'
     $msiPath = Join-Path $script:tempDirectory $msiName
-    Download-File -url "https://download.uipath.com/versions/18.2.4/UiPathPlatform.msi" -outputFile $msiPath
-    
+    Download-File -url "https://download.uipath.com/UiPathStudio.msi" -outputFile $msiPath
+
     #install the Robot
     $msiFeatures = @("DesktopFeature","Robot","StartupLauncher","RegisterService","Packages")
-    
-    $installResult = Install-Robot -msiPath $msiPath -msiFeatures $msiFeatures 
+
+    $installResult = Install-Robot -msiPath $msiPath -msiFeatures $msiFeatures
 
         if ($installResult.MSIExecProcess.ExitCode -ne 0) {
                 Write-Error "The msiexec process returned a non-zero exit code: $($installResult.MSIExecProcess.ExitCode). Please check the msiexec logs for more details: '$($installResult.LogPath)'"
@@ -19,9 +19,9 @@ function Main {
                 Write-Debug (Get-Content $installResult.LogPath)
                 Exit ($installResult.MSIExecProcess.ExitCode)
             }
-    #starting Robot       
+    #starting Robot
     $robotExePath = [System.IO.Path]::Combine(${ENV:ProgramFiles(x86)}, "UiPath", "Studio", "UiRobot.exe")
-    
+
     start-process -filepath $robotExePath -verb runas
 
     #remove temp directory
@@ -50,7 +50,7 @@ function Invoke-MSIExec {
     param (
         [Parameter(Mandatory = $true)]
         [string] $msiPath,
-        
+
         [Parameter(Mandatory = $true)]
         [string] $logPath,
 
@@ -103,7 +103,7 @@ function Download-File {
     $webClient = New-Object System.Net.WebClient
 
     $webClient.DownloadFile($url,$outputFile)
-    
+
 }
 
 function Install-Robot {
