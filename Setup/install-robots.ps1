@@ -34,6 +34,7 @@ function Main {
 
 
 
+
     #remove temp directory
     Write-Verbose "Removing temp directory $($script:tempDirectory)"
     Remove-Item $script:tempDirectory -Recurse -Force | Out-Null

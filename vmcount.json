@@ -9,6 +9,12 @@
                 "description": "Location for all resources."
             }
         },
+        "licenseCode": {
+            "type": "string",
+            "metadata": {
+                "description": "UiPath license code"
+            }
+        },
         "setupOrchLink": {
             "defaultValue": "No",
             "allowedValues": [
@@ -101,8 +107,8 @@
         "scriptFileString": "[variables('scriptUriNamePieces')[sub(length(variables('scriptUriNamePieces')), 1)]]",
         "scriptFileBreakString": "[split(variables('scriptFileString'), '?')]",
         "scriptFileName": "[variables('scriptFileBreakString')[0]]",
-        "nexecuteScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFileName'),' ',' -beta')]",
-        "executeScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFileName'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('Tennant'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ','Standard',' ','-RobotType',' ','Attended',' ','-adminUsername',' ',parameters('orchAdmin'),' -beta')]"
+        "nexecuteScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFileName'),' ','-licenseCode',' ',parameters('licenseCode'),' -beta')]",
+        "executeScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFileName'),' ','-licenseCode',' ',parameters('licenseCode'),'-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('Tennant'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ','Standard',' ','-RobotType',' ','Attended',' ','-adminUsername',' ',parameters('orchAdmin'),' -beta')]"
     },
     "resources": [
         {
