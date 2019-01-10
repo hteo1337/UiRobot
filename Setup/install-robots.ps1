@@ -1,29 +1,16 @@
-function Main {
+[CmdletBinding()]
     Param (
-        [Parameter(Mandatory=$true)]
-        [String]$orchestratorUrl,
 
-        [Parameter(Mandatory=$true)]
-        [String]$Tennant,
-
-        [Parameter(Mandatory=$true)]
+        [String] $orchestratorUrl,
+        [String] $Tennant,
         [String] $orchAdmin,
-
-        [Parameter(Mandatory=$true)]
         [String] $orchPassword,
-
-        [Parameter(Mandatory=$true)]
         [string] $adminUsername,
-
-        [Parameter()]
-        [AllowEmptyString()]
         [string] $HostingType = 'Standard',
-
-		[Parameter()]
-        [AllowEmptyString()]
         [string] $RobotType = 'Attended'
 
     )
+function Main {
 
 
     #define TLS for Invoke-WebRequest
