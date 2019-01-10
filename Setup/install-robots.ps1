@@ -2,20 +2,16 @@ function Main {
 
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory=$true,
-         ValueFromPipeline=$true)]
+        [Parameter(Mandatory=$true)]
         [String]$orchestratorUrl,
 
-        [Parameter(Mandatory=$true,
-         ValueFromPipeline=$true)]
-        [String]$tennant,
+        [Parameter(Mandatory=$true)]
+        [String]$Tennant,
 
-        [Parameter(Mandatory=$true,
-         ValueFromPipeline=$true)]
+        [Parameter(Mandatory=$true)]
         [String] $orchAdmin,
 
-        [Parameter(Mandatory=$true,
-         ValueFromPipeline=$true)]
+        [Parameter(Mandatory=$true)]
         [String] $orchPassword,
 
 		[Parameter()]
@@ -62,7 +58,7 @@ function Main {
     # start-process -filepath $robotExePath -verb runas
 
 
-	$roboConnect = ConnectTo-Orchestrator-Perf -orchestratorUrl $orchestratorUrl -robotExePath $robotExePath -tennant $tennant -adminUsername $orchAdmin -orchPassword $orchPassword -HostingType $HostingType -RobotType $RobotType
+	$roboConnect = ConnectTo-Orchestrator-Perf -orchestratorUrl $orchestratorUrl -robotExePath $robotExePath -Tennant $Tennant -adminUsername $orchAdmin -orchPassword $orchPassword -HostingType $HostingType -RobotType $RobotType
 
 
 

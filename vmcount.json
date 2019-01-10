@@ -47,13 +47,27 @@
                 "description": "Password for the orchestrator."
             }
         },
-        "tennant": {
+        "Tennant": {
             "type": "string",
             "defaultValue": "default",
             "metadata": {
                 "description": "Orch Tennant"
             }
         },
+        "HostingType": {
+            "type": "string",
+            "defaultValue": "Standard",
+            "metadata": {
+                "description": "Machine Type"
+                }
+            },
+        "RobotType": {
+            "type": "string",
+            "defaultValue": "Attended",
+            "metadata": {
+                "description": "Robot Type"
+                }
+            },
         "virtualMachineName": {
             "type": "String",
             "metadata": {
@@ -108,7 +122,7 @@
         "scriptFileBreakString": "[split(variables('scriptFileString'), '?')]",
         "scriptFileName": "[variables('scriptFileBreakString')[0]]",
         "nexecuteScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFileName'),' ','-licenseCode',' ',parameters('licenseCode'),' -beta')]",
-        "executeScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFileName'),' ','-licenseCode',' ',parameters('licenseCode'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('tennant'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ','Standard',' ','-RobotType',' ','Attended',' ','-adminUsername',' ',parameters('orchAdmin'),' -beta')]"
+        "executeScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFileName'),' ','-licenseCode',' ',parameters('licenseCode'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('Tennant'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ',parameters('HostingType'),' ','-RobotType',' ',parameters('RobotType'),' ','-adminUsername',' ',parameters('orchAdmin'),' -beta')]"
     },
     "resources": [
         {
