@@ -12,13 +12,16 @@ function Main {
         [Parameter(Mandatory=$true)]
         [String] $orchPassword,
 
-	[Parameter()]
-        [AllowEmptyString()]
-        [String] $HostingType,
+        [Parameter(Mandatory=$true)]
+        [string] $adminUsername,
 
-	[Parameter()]
+        [Parameter()]
         [AllowEmptyString()]
-        [String] $RobotType
+        [string] $HostingType = 'Standard',
+
+		[Parameter()]
+        [AllowEmptyString()]
+        [string] $RobotType = 'Attended'
 
     )
 
@@ -50,14 +53,50 @@ function Main {
     #starting Robot
     #$robotExePath = [System.IO.Path]::Combine(${ENV:ProgramFiles(x86)}, "UiPath", "Studio", "UiRobot.exe")
 
-    $robotExePath = Get-UiRobotExePath  -community:$community
-
-    # start-process -filepath $robotExePath -verb runas
+     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 
-   $roboConnect = ConnectTo-Orchestrator-Perf -orchestratorUrl $orchestratorUrl -robotExePath $robotExePath -Tennant $Tennant -adminUsername $orchAdmin -orchPassword $orchPassword -HostingType $HostingType -RobotType $RobotType
+    #starting Robot
+    $robotExePath = [System.IO.Path]::Combine(${ENV:ProgramFiles(x86)}, "UiPath", "Studio", "UiRobot.exe")
 
-    Write-Output $roboConnect
+    start-process -filepath $robotExePath -verb runas
+
+	$dataLogin = @{
+       tenancyName = $Tennant
+       usernameOrEmailAddress = $orchAdmin
+       password = $orchPassword
+       rememberMe = $true
+       } | ConvertTo-Json
+   Write-Host "**********************"
+   $orchUrl_login = "$orchestratorUrl/account/login"
+
+   # login API call to get the login session used for all requests
+   $webresponse = Invoke-WebRequest -Uri $orchUrl_login -Method Post -Body $dataLogin -ContentType "application/json" -UseBasicParsing -Session websession
+
+
+   $cookies = $websession.Cookies.GetCookies($orchUrl_login)
+
+   $dataRobot = @{
+    MachineName = $env:computername
+    Username = $adminUsername
+    Type = $RobotType
+    HostingType = $HostingType
+    Password = $orchPassword
+    Name = $env:computername
+    ExecutionSettings=@{}} | ConvertTo-Json
+
+    $orch_bot = "$orchestratorUrl/odata/Robots"
+    Write-Host $orch_bot
+
+    $webresponse = Invoke-RestMethod -Uri $orch_bot -Method Post -Body $dataRobot -ContentType "application/json" -UseBasicParsing -WebSession $websession
+
+    $key = $webresponse.LicenseKey
+
+    Write-Host $key
+    &    $robotExePath --connect -url  $orchestratorUrl -key $key
+
+
+
 
     #remove temp directory
     Write-Verbose "Removing temp directory $($script:tempDirectory)"
@@ -250,7 +289,7 @@ function ConnectTo-Orchestrator-Perf {
 
 		[Parameter()]
         [AllowEmptyString()]
-        [string] $adminUsername,
+        [string] $orchAdmin,
 
 		[Parameter()]
         [AllowEmptyString()]
@@ -272,7 +311,7 @@ function ConnectTo-Orchestrator-Perf {
 
 	$dataLogin = @{
        tenancyName = $Tennant
-       usernameOrEmailAddress = $adminUsername
+       usernameOrEmailAddress = $orchAdmin
        password = $orchPassword
        rememberMe = $true
        } | ConvertTo-Json
@@ -288,7 +327,7 @@ function ConnectTo-Orchestrator-Perf {
 
    $dataRobot = @{
     MachineName = $env:computername
-    Username = $adminUsername
+    Username = $orchAdmin
     Type = $RobotType
     HostingType = $HostingType
     Password = $orchPassword
