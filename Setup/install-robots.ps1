@@ -1,6 +1,4 @@
 function Main {
-
-    [CmdletBinding()]
     Param (
         [Parameter(Mandatory=$true)]
         [String]$orchestratorUrl,
@@ -14,11 +12,11 @@ function Main {
         [Parameter(Mandatory=$true)]
         [String] $orchPassword,
 
-		[Parameter()]
+	[Parameter()]
         [AllowEmptyString()]
         [String] $HostingType,
 
-		[Parameter()]
+	[Parameter()]
         [AllowEmptyString()]
         [String] $RobotType
 
@@ -52,15 +50,14 @@ function Main {
     #starting Robot
     #$robotExePath = [System.IO.Path]::Combine(${ENV:ProgramFiles(x86)}, "UiPath", "Studio", "UiRobot.exe")
 
-    $robotExePath = Get-UiRobotExePath
-
+    $robotExePath = Get-UiRobotExePath  -community:$community
 
     # start-process -filepath $robotExePath -verb runas
 
 
-	$roboConnect = ConnectTo-Orchestrator-Perf -orchestratorUrl $orchestratorUrl -robotExePath $robotExePath -Tennant $Tennant -adminUsername $orchAdmin -orchPassword $orchPassword -HostingType $HostingType -RobotType $RobotType
+   $roboConnect = ConnectTo-Orchestrator-Perf -orchestratorUrl $orchestratorUrl -robotExePath $robotExePath -Tennant $Tennant -adminUsername $orchAdmin -orchPassword $orchPassword -HostingType $HostingType -RobotType $RobotType
 
-
+    Write-Output $roboConnect
 
     #remove temp directory
     Write-Verbose "Removing temp directory $($script:tempDirectory)"
