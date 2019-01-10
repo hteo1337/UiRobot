@@ -9,17 +9,6 @@
                 "description": "Location for all resources."
             }
         },
-        "setupOrchLink": {
-            "defaultValue": "No",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "type": "String",
-            "metadata": {
-                "description": "Setup Orchestrator Connection"
-            }
-        },
         "orchestratorUrl": {
             "defaultValue": "",
             "type": "String",
@@ -115,8 +104,7 @@
         "scriptFileString": "[variables('scriptUriNamePieces')[sub(length(variables('scriptUriNamePieces')), 1)]]",
         "scriptFileBreakString": "[split(variables('scriptFileString'), '?')]",
         "scriptFileName": "[variables('scriptFileBreakString')[0]]",
-        "nexecuteScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFileName'))]",
-        "executeScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFileName'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('Tennant'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ',parameters('HostingType'),' ','-RobotType',' ',parameters('RobotType'),' ','-adminUsername',' ',parameters('orchAdmin'))]"
+        "executeScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFileName'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('Tennant'),' ','-orchAdmin',' ',parameters('orchAdmin'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ',parameters('HostingType'),' ','-RobotType',' ',parameters('RobotType'),' ','-adminUsername',' ',parameters('orchAdmin'))]"
     },
     "resources": [
         {
@@ -309,7 +297,7 @@
                     "fileUris": "[split(variables('scriptUriBase'), ' ')]"
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[if(equals(parameters('setupOrchLink'), 'No'),variables('nexecuteScript'),variables('executeScript'))]"
+                    "commandToExecute": "[variables('executeScript')]"
                 }
             },
             "dependsOn": [
