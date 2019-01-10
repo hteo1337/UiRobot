@@ -1,4 +1,38 @@
 function Main {
+
+    [CmdletBinding()]
+    Param (
+        [Parameter(Mandatory=$true,
+         ValueFromPipeline=$true)]
+        [String]$orchestratorUrl,
+
+        [Parameter(Mandatory=$true,
+         ValueFromPipeline=$true)]
+        [String]$tennant,
+
+        [Parameter(Mandatory=$true,
+         ValueFromPipeline=$true)]
+        [String] $orchAdmin,
+
+        [Parameter(Mandatory=$true,
+         ValueFromPipeline=$true)]
+        [String] $orchPassword,
+
+		[Parameter()]
+        [AllowEmptyString()]
+        [String] $HostingType,
+
+		[Parameter()]
+        [AllowEmptyString()]
+        [String] $RobotType
+
+    )
+
+
+    #define TLS for Invoke-WebRequest
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+
     #setup temp dir in %appdata%\Local\Temp
     $script:tempDirectory = (Join-Path $ENV:TEMP "UiPath-$(Get-Date -f "yyyyMMddhhmmssfff")")
     New-Item -ItemType Directory -Path $script:tempDirectory | Out-Null
@@ -20,18 +54,15 @@ function Main {
                 Exit ($installResult.MSIExecProcess.ExitCode)
             }
     #starting Robot
-    $robotExePath = [System.IO.Path]::Combine(${ENV:ProgramFiles(x86)}, "UiPath", "Studio", "UiRobot.exe")
+    #$robotExePath = [System.IO.Path]::Combine(${ENV:ProgramFiles(x86)}, "UiPath", "Studio", "UiRobot.exe")
 
-    start-process -filepath $robotExePath -verb runas
-
-
-    $HostingType = 'Standard'
-    $RobotType = 'Attended'
-
-	$roboConnect = ConnectTo-Orchestrator-Perf -orchestratorUrl $orchestratorUrl -robotExePath $robotExePath -tennant $tennant -adminUsername $adminUsername -orchPassword $orchPassword -HostingType $HostingType -RobotType $RobotType
+    $robotExePath = Get-UiRobotExePath
 
 
+    # start-process -filepath $robotExePath -verb runas
 
+
+	$roboConnect = ConnectTo-Orchestrator-Perf -orchestratorUrl $orchestratorUrl -robotExePath $robotExePath -tennant $tennant -adminUsername $orchAdmin -orchPassword $orchPassword -HostingType $HostingType -RobotType $RobotType
 
 
 
