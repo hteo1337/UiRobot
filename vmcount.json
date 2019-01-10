@@ -34,7 +34,7 @@
             "type": "string",
             "defaultValue": "default",
             "metadata": {
-                "description": "Orch Tennant"
+                "description": "Orchestrator Tennant"
             }
         },
         "HostingType": {
@@ -60,19 +60,19 @@
         "howMany": {
             "type": "Int",
             "metadata": {
-                "description": "how many VMs?"
+                "description": "how many Robots?"
             }
         },
         "adminUsername": {
             "type": "String",
             "metadata": {
-                "description": "Admin username"
+                "description": "VMs Admin username"
             }
         },
         "adminPassword": {
             "type": "SecureString",
             "metadata": {
-                "description": "Admin password"
+                "description": "VMs Admin password"
             }
         },
         "virtualMachineSize": {

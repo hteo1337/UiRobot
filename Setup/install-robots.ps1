@@ -1,13 +1,13 @@
 [CmdletBinding()]
     Param (
-
+        [Parameter(Mandatory = $true)]
         [String] $orchestratorUrl,
         [String] $Tennant,
         [String] $orchAdmin,
         [String] $orchPassword,
         [string] $adminUsername,
-        [string] $HostingType = 'Standard',
-        [string] $RobotType = 'Attended'
+        [string] $HostingType,
+        [string] $RobotType
 
     )
 function Main {
@@ -37,16 +37,9 @@ function Main {
                 Write-Debug (Get-Content $installResult.LogPath)
                 Exit ($installResult.MSIExecProcess.ExitCode)
             }
-    #starting Robot
-    #$robotExePath = [System.IO.Path]::Combine(${ENV:ProgramFiles(x86)}, "UiPath", "Studio", "UiRobot.exe")
 
-     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-
-
-    #starting Robot
-    $robotExePath = [System.IO.Path]::Combine(${ENV:ProgramFiles(x86)}, "UiPath", "Studio", "UiRobot.exe")
-
-    start-process -filepath $robotExePath -verb runas
+    #get Robot path
+    $robotExePath = Get-UiRobotExePath
 
 	$dataLogin = @{
        tenancyName = $Tennant
@@ -83,7 +76,8 @@ function Main {
     &    $robotExePath --connect -url  $orchestratorUrl -key $key
 
 
-
+   #starting Robot
+   start-process -filepath $robotExePath -verb runas
 
     #remove temp directory
     Write-Verbose "Removing temp directory $($script:tempDirectory)"
@@ -222,80 +216,6 @@ function Install-Robot {
     }
 }
 
-<#
-.DESCRIPTION
-Connects the robot to an Orchestrator instance
-#>
-
-function ConnectTo-Orchestrator-Perf {
-
-    param(
-        [Parameter(Mandatory = $true)]
-        [string] $robotExePath,
-
-        [Parameter()]
-        [AllowEmptyString()]
-        [string] $orchestratorUrl,
-
-		[Parameter()]
-        [AllowEmptyString()]
-        [string] $Tennant,
-
-		[Parameter()]
-        [AllowEmptyString()]
-        [string] $orchAdmin,
-
-		[Parameter()]
-        [AllowEmptyString()]
-        [string] $orchPassword,
-
-		[Parameter()]
-        [AllowEmptyString()]
-        [string] $HostingType,
-
-		[Parameter()]
-        [AllowEmptyString()]
-        [string] $RobotType
-
-    )
-
-    if (!(Test-Path $robotExePath)) {
-        throw "No UiRobot.exe file found at '$robotExePath'"
-    }
-
-	$dataLogin = @{
-       tenancyName = $Tennant
-       usernameOrEmailAddress = $orchAdmin
-       password = $orchPassword
-       rememberMe = $true
-       } | ConvertTo-Json
-   Write-Host "**********************"
-   $orchUrl_login = "$orchestratorUrl/account/login"
-   Write-Host $orchUrl_login
-
-   # login API call to get the login session used for all requests
-   $webresponse = Invoke-WebRequest -Uri $orchUrl_login -Method Post -Body $dataLogin -ContentType "application/json" -UseBasicParsing -Session websession
-
-
-   $cookies = $websession.Cookies.GetCookies($orchUrl_login)
-
-   $dataRobot = @{
-    MachineName = $env:computername
-    Username = $orchAdmin
-    Type = $RobotType
-    HostingType = $HostingType
-    Password = $orchPassword
-    Name = $env:computername
-    ExecutionSettings=@{}} | ConvertTo-Json
-
-    $orch_bot = "$orchestratorUrl/odata/Robots"
-    Write-Host $orch_bot
-
-    $webresponse = Invoke-RestMethod -Uri $orch_bot -Method Post -Body $dataRobot -ContentType "application/json" -UseBasicParsing -WebSession $websession
-    $key = $webresponse.LicenseKey
-    Write-Host $key
-    &    $robotExePath --connect -url  $orchestratorUrl -key $key
-	}
 
 
 Main
