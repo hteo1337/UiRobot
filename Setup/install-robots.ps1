@@ -239,39 +239,6 @@ function Install-Robot {
 .DESCRIPTION
 Connects the robot to an Orchestrator instance
 #>
-function ConnectTo-Orchestrator {
-
-    param(
-        [Parameter(Mandatory = $true)]
-        [string] $robotExePath,
-
-        [Parameter()]
-        [AllowEmptyString()]
-        [string] $orchestratorUrl,
-
-        [Parameter()]
-        [AllowEmptyString()]
-        [string] $machineKey,
-
-        [Parameter()]
-        [AllowEmptyString()]
-        [string] $orchestratorConnectionString
-    )
-
-    if (!(Test-Path $robotExePath)) {
-        throw "No UiRobot.exe file found at '$robotExePath'"
-    }
-
-    $connectionResult = if ($orchestratorConnectionString) {
-        Write-Verbose "Connecting robot to Orchestrator at $orchestratorConnectionString"
-        & $robotExePath --connect -connectionString "$orchestratorConnectionString"
-    } else {
-        Write-Verbose "Connecting robot to Orchestrator at $orchestratorUrl with key $machineKey"
-        & $robotExePath --connect -url "$orchestratorUrl" -key "$machineKey"
-    }
-
-    return $connectionResult
-}
 
 function ConnectTo-Orchestrator-Perf {
 
