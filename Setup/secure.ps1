@@ -12,7 +12,7 @@
     )
 function Main {
 
-    $plainPassw = System.Net.NetworkCredential('',$orchPassword).Password
+    $plainPassw = Get-PlainText -SecureString $orchPassword
 
     #define TLS for Invoke-WebRequest
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
@@ -217,6 +217,29 @@ function Install-Robot {
     }
 }
 
+function Get-PlainText()
+{
+	[CmdletBinding()]
+	param
+	(
+		[parameter(Mandatory = $true)]
+		[System.Security.SecureString]$SecureString
+	)
+	BEGIN { }
+	PROCESS
+	{
+		$bstr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecureString);
 
+		try
+		{
+			return [Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr);
+		}
+		finally
+		{
+			[Runtime.InteropServices.Marshal]::FreeBSTR($bstr);
+		}
+	}
+	END { }
+}
 
 Main
