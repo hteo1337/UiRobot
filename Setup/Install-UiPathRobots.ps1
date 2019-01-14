@@ -84,6 +84,7 @@
        Username = $adminUsername
        Type = $RobotType
        HostingType = $HostingType
+       Password = $orchPassword
        Name = $env:computername
        ExecutionSettings=@{}} | ConvertTo-Json
 

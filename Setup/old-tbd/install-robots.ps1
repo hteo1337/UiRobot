@@ -12,7 +12,7 @@
     )
 function Main {
 
-    $plainPassw = System.Net.NetworkCredential('',$orchPassword).Password
+
 
     #define TLS for Invoke-WebRequest
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
@@ -62,7 +62,7 @@ function Main {
     Username = $adminUsername
     Type = $RobotType
     HostingType = $HostingType
-    Password = $plainPassw
+    Password = $orchPassword
     Name = $env:computername
     ExecutionSettings=@{}} | ConvertTo-Json
 
