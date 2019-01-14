@@ -100,7 +100,7 @@
         }
     },
     "variables": {
-        "scriptUriBase": "https://raw.githubusercontent.com/hteo1337/UiRobot/master/Setup/install-robots.ps1",
+        "scriptUriBase": "https://raw.githubusercontent.com/hteo1337/UiRobot/master/Setup/Install-Robots.ps1",
         "vmName": "[parameters('virtualMachineName')]",
         "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
         "osDiskType": "StandardSSD_LRS",

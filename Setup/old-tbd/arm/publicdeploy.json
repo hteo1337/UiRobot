@@ -1,0 +1,601 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                 "description": "Location for all resources."
+             }
+        },
+        "licenseCode": {{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "defaultValue": "[resourceGroup().location]",
+            "type": "String",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        },
+        "orchestratorUrl": {
+            "defaultValue": "",
+            "type": "String",
+            "metadata": {
+                "description": "Orchestrator URL."
+            }
+        },
+        "orchAdmin": {
+            "type": "string",
+            "defaultValue": "admin",
+            "metadata": {
+                "description": "User admin of the orchestrator."
+            }
+        },
+        "orchPassword": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Password for the orchestrator."
+            }
+        },
+        "Tennant": {
+            "type": "string",
+            "defaultValue": "default",
+            "metadata": {
+                "description": "Orchestrator Tennant"
+            }
+        },
+        "HostingType": {
+            "type": "string",
+            "defaultValue": "Standard",
+            "metadata": {
+                "description": "Machine Type"
+                }
+            },
+        "RobotType": {
+            "type": "string",
+            "defaultValue": "Attended",
+            "metadata": {
+                "description": "Robot Type"
+                }
+            },
+        "virtualMachineName": {
+            "type": "String",
+            "metadata": {
+                "description": "Virtual Machine Name"
+            }
+        },
+        "howMany": {
+            "type": "Int",
+            "metadata": {
+                "description": "how many Robots?"
+            }
+        },
+        "adminUsername": {
+            "type": "String",
+            "metadata": {
+                "description": "VMs Admin username"
+            }
+        },
+        "adminPassword": {
+            "type": "SecureString",
+            "metadata": {
+                "description": "VMs Admin password"
+            }
+        },
+        "virtualMachineSize": {
+            "defaultValue": "Standard_B2s",
+            "allowedValues": [
+                "Standard_B2s",
+                "Standard_F4s"
+            ],
+            "type": "String"
+        }
+    },
+    "variables": {
+        "scriptUriBase": "https://raw.githubusercontent.com/hteo1337/UiRobot/master/Setup/install-robots.ps1",
+        "vmName": "[parameters('virtualMachineName')]",
+        "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
+        "osDiskType": "StandardSSD_LRS",
+        "publicIpAddressName": "[concat(variables('vmName'), '-pip')]",
+        "publicIpAddressSku": "Basic",
+        "publicIpAddressType": "Dynamic",
+        "networkInterfaceName": "[concat(variables('vmName'), '-nic')]",
+        "networkSecurityGroupName": "[concat(variables('vmName'), '-nsg')]",
+        "virtualNetworkName": "[concat(variables('vmName'), '-vnet')]",
+        "addressPrefix": "10.0.0.0/24",
+        "subnetPrefix": "[variables('addressPrefix')]",
+        "subnetName": "[concat(variables('vmName'), '-subnet')]",
+        "vnetId": "[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
+        "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
+        "scriptUriNamePieces": "[split(variables('scriptUriBase'), '/')]",
+        "scriptFileString": "[variables('scriptUriNamePieces')[sub(length(variables('scriptUriNamePieces')), 1)]]",
+        "scriptFileBreakString": "[split(variables('scriptFileString'), '?')]",
+        "scriptFileName": "[variables('scriptFileBreakString')[0]]",
+        "executeScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ',' ', variables('scriptFileName'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('Tennant'),' ','-orchAdmin',' ',parameters('orchAdmin'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ',parameters('HostingType'),' ','-RobotType',' ',parameters('RobotType'),' ','-adminUsername',' ',parameters('adminUsername'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[concat(variables('networkInterfaceName'),copyIndex(1))]",
+            "apiVersion": "2018-04-01",
+            "location": "[parameters('location')]",
+            "copy": {
+                "name": "virtualMachineName",
+                "count": "[parameters('howMany')]"
+            },
+            "tags": {},
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
+                            },
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIpAddress": {
+                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', concat(variables('publicIpAddressName'),copyIndex(1)))]"
+                            }
+                        }
+                    }
+                ],
+                "networkSecurityGroup": {
+                    "id": "[variables('nsgId')]"
+                }
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]",
+                "[concat('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressName'),copyIndex(1))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[variables('networkSecurityGroupName')]",
+            "apiVersion": "2018-08-01",
+            "location": "[parameters('location')]",
+            "tags": {},
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "HTTP",
+                        "properties": {
+                            "priority": 300,
+                            "protocol": "TCP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "destinationPortRange": "80"
+                        }
+                    },
+                    {
+                        "name": "RDP",
+                        "properties": {
+                            "priority": 320,
+                            "protocol": "TCP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "destinationPortRange": "3389"
+                        }
+                    },
+                    {
+                        "name": "HTTPS",
+                        "properties": {
+                            "priority": 340,
+                            "protocol": "TCP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "destinationPortRange": "443"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[variables('virtualNetworkName')]",
+            "apiVersion": "2018-08-01",
+            "location": "[parameters('location')]",
+            "tags": {},
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('addressPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('subnetName')]",
+                        "properties": {
+                            "addressPrefix": "[variables('subnetPrefix')]"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/publicIpAddresses",
+            "sku": {
+                "name": "[variables('publicIpAddressSku')]"
+            },
+            "name": "[concat(variables('publicIpAddressName'),copyIndex(1))]",
+            "apiVersion": "2018-08-01",
+            "location": "[parameters('location')]",
+            "copy": {
+                "name": "virtualMachineName",
+                "count": "[parameters('howMany')]"
+            },
+            "tags": {},
+            "properties": {
+                "publicIpAllocationMethod": "[variables('publicIpAddressType')]"
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[concat(parameters('virtualMachineName'),copyIndex(1))]",
+            "apiVersion": "2018-04-01",
+            "location": "[parameters('location')]",
+            "copy": {
+                "name": "virtualMachineName",
+                "count": "[parameters('howMany')]"
+            },
+            "tags": {},
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('virtualMachineSize')]"
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "createOption": "fromImage",
+                        "managedDisk": {
+                            "storageAccountType": "[variables('osDiskType')]"
+                        }
+                    },
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2016-Datacenter",
+                        "version": "latest"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('networkInterfaceName'),copyIndex(1)))]"
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[concat(parameters('virtualMachineName'),copyIndex(1))]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]",
+                    "windowsConfiguration": {
+                        "enableAutomaticUpdates": true,
+                        "provisionVmAgent": true
+                    }
+                }
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', concat(variables('networkInterfaceName'),copyIndex(1)))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('virtualMachineName'),copyIndex(1),'/CustomScriptExtension')]",
+            "apiVersion": "2015-06-15",
+            "location": "[parameters('location')]",
+            "copy": {
+                "name": "virtualMachineName",
+                "count": "[parameters('howMany')]"
+            },
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.7",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "fileUris": "[split(variables('scriptUriBase'), ' ')]"
+                },
+                "protectedSettings": {
+                    "commandToExecute": "[variables('executeScript')]"
+                }
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', concat(variables('vmName'),copyIndex(1)))]"
+            ]
+        }
+    ],
+    "outputs": {
+        "adminUsername": {
+            "type": "String",
+            "value": "[parameters('adminUsername')]"
+        }
+    }
+}
+
+            "type": "string",
+            "metadata": {
+                "description": "UiPath license code"
+            }
+        },
+        "setupOrchLink": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ],
+            "metadata": {
+                 "description": "Setup Orchestrator Connection"
+             }
+        },
+        "orchestratorUrl": {
+             "type": "string",
+             "defaultValue": "",
+             "metadata": {
+                 "description": "Orchestrator URL."
+             }
+         },
+         "machineKey": {
+             "type": "string",
+             "defaultValue": "",
+             "metadata": {
+                 "description": "Machine Key."
+             }
+         },
+
+        "virtualMachineName": {
+             "type": "string",
+             "metadata": {
+                 "description": "Virtual Machine Name"
+             }
+         },
+        "adminUsername": {
+             "type": "string",
+             "metadata": {
+                 "description": "Admin username"
+             }
+         },
+        "adminPassword": {
+             "type": "secureString",
+             "metadata": {
+                 "description": "Admin password"
+             }
+         },
+         "virtualMachineSize": {
+             "type": "string",
+             "defaultValue": "Standard_B2s",
+             "allowedValues": [
+                 "Standard_B2s",
+                 "Standard_F4s"
+             ]
+         }
+
+    },
+    "variables": {
+        "scriptUriBase": "https://raw.githubusercontent.com/UiPath/DevOps/master/Setup/Install-UiPath.ps1",
+        "vmName": "[parameters('virtualMachineName')]",
+        "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
+        "osDiskType" : "StandardSSD_LRS",
+        "publicIpAddressName": "[concat(variables('vmName'), '-pip')]",
+        "publicIpAddressSku": "Basic",
+        "publicIpAddressType":"Dynamic",
+        "networkInterfaceName": "[concat(variables('vmName'), '-nic')]",
+        "networkSecurityGroupName": "[concat(variables('vmName'), '-nsg')]",
+        "virtualNetworkName": "[concat(variables('vmName'), '-vnet')]",
+        "addressPrefix": "10.0.0.0/24",
+        "subnetPrefix": "[variables('addressPrefix')]",
+        "subnetName":"[concat(variables('vmName'), '-subnet')]",
+        "vnetId": "[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
+        "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
+        "scriptUriNamePieces": "[split(variables('scriptUriBase'), '/')]",
+        "scriptFileString": "[variables('scriptUriNamePieces')[sub(length(variables('scriptUriNamePieces')), 1)]]",
+        "scriptFileBreakString": "[split(variables('scriptFileString'), '?')]",
+        "scriptFileName": "[variables('scriptFileBreakString')[0]]",
+        "nexecuteScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFileName'),' ','-licenseCode',' ',parameters('licenseCode'),' -beta')]",
+        "executeScript": "[concat ('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFileName'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ',' -machineKey',' ',parameters('machineKey'),' ','-licenseCode',' ',parameters('licenseCode'),' -beta')]"
+
+    },
+    "resources": [
+        {
+            "name": "[variables('networkInterfaceName')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2018-04-01",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]",
+                "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+                "[concat('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressName'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
+                            },
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIpAddress": {
+                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', variables('publicIpAddressName'))]"
+                            }
+                        }
+                    }
+                ],
+                "networkSecurityGroup": {
+                    "id": "[variables('nsgId')]"
+                }
+            },
+            "tags": {}
+        },
+        {
+            "name": "[variables('networkSecurityGroupName')]",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2018-08-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "HTTP",
+                        "properties": {
+                            "priority": 300,
+                            "protocol": "TCP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "destinationPortRange": "80"
+                        }
+                    },
+                    {
+                        "name": "RDP",
+                        "properties": {
+                            "priority": 320,
+                            "protocol": "TCP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "destinationPortRange": "3389"
+                        }
+                    },
+                    {
+                        "name": "HTTPS",
+                        "properties": {
+                            "priority": 340,
+                            "protocol": "TCP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "destinationPortRange": "443"
+                        }
+                    }
+                ]
+            },
+            "tags": {}
+        },
+        {
+            "name": "[variables('virtualNetworkName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2018-08-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('addressPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('subnetName')]",
+                        "properties": {
+                            "addressPrefix": "[variables('subnetPrefix')]"
+                        }
+                    }
+                ]
+            },
+            "tags": {}
+        },
+        {
+            "name": "[variables('publicIpAddressName')]",
+            "type": "Microsoft.Network/publicIpAddresses",
+            "apiVersion": "2018-08-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "publicIpAllocationMethod": "[variables('publicIpAddressType')]"
+            },
+            "sku": {
+                "name": "[variables('publicIpAddressSku')]"
+            },
+            "tags": {}
+        },
+        {
+            "name": "[parameters('virtualMachineName')]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2018-04-01",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('virtualMachineSize')]"
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "createOption": "fromImage",
+                        "managedDisk": {
+                            "storageAccountType": "[variables('osDiskType')]"
+                        }
+                    },
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2016-Datacenter",
+                        "version": "latest"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachineName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]",
+                    "windowsConfiguration": {
+                        "enableAutomaticUpdates": true,
+                        "provisionVmAgent": true
+                    }
+                }
+            },
+            "tags": {}
+        },
+        {
+            "name": "[concat(parameters('virtualMachineName'),'/CustomScriptExtension')]",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "location": "[parameters('location')]",
+            "apiVersion": "2015-06-15",
+            "properties": {
+              "publisher": "Microsoft.Compute",
+              "type": "CustomScriptExtension",
+              "typeHandlerVersion": "1.7",
+              "autoUpgradeMinorVersion": true,
+              "settings": {
+                "fileUris": "[split(variables('scriptUriBase'), ' ')]"
+              },
+              "protectedSettings": {
+                "commandToExecute": "[if(equals(parameters('setupOrchLink'), 'No'),variables('nexecuteScript'),variables('executeScript'))]"
+              }
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+            ]
+          }
+
+ ],
+    "outputs": {
+        "adminUsername": {
+            "type": "string",
+            "value": "[parameters('adminUsername')]"
+        }
+    }
+}
