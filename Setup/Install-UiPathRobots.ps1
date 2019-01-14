@@ -10,13 +10,11 @@
         [String] $orchPassword,
         [Parameter(Mandatory = $true)]
         [string] $adminUsername,
-        [Parameter(Mandatory = $true)]
         [string] $machinePassword,
         [Parameter(Mandatory = $true)]
         [string] $HostingType,
         [Parameter(Mandatory = $true)]
         [string] $RobotType,
-        [Parameter(Mandatory = $true)]
         [string] $credType
 
     )
@@ -32,7 +30,7 @@
       New-Item -ItemType Directory -Path $script:tempDirectory | Out-Null
 
       #download UiPlatform
-      $msiName = 'UiPathPlatform.msi'
+      $msiName = 'UiPathStudio.msi'
       $msiPath = Join-Path $script:tempDirectory $msiName
       Download-File -url "https://download.uipath.com/UiPathStudio.msi" -outputFile $msiPath
 
