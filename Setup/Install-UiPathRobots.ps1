@@ -84,7 +84,6 @@
        Username = $adminUsername
        Type = $RobotType
        HostingType = $HostingType
-       Password = $plainPassw
        Name = $env:computername
        ExecutionSettings=@{}} | ConvertTo-Json
 
