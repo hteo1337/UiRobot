@@ -37,24 +37,6 @@
                 "description": "Orchestrator Tennant"
             }
         },
-        "HostingType": {
-            "type": "string",
-            "defaultValue": "Standard",
-            "metadata": {
-                "description": "Machine Type"
-                }
-            },
-        "CredentialType": {
-            "type": "string",
-            "defaultValue": "Default",
-            "allowedValues": [
-                "Default",
-                "SmartCard"
-            ],
-            "metadata": {
-                  "description": "Credential Type : Default or SmartCard"
-                    }
-                },
         "RobotType": {
             "type": "string",
             "defaultValue": "Unattended",
@@ -101,6 +83,8 @@
     },
     "variables": {
         "scriptUriBase": "https://raw.githubusercontent.com/hteo1337/UiRobot/master/Setup/Install-UiPathRobots.ps1",
+        "HostingType": "Standard",
+        "CredentialType": "Default",
         "vmName": "[parameters('virtualMachineName')]",
         "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
         "osDiskType": "StandardSSD_LRS",
@@ -119,8 +103,8 @@
         "scriptFileString": "[variables('scriptUriNamePieces')[sub(length(variables('scriptUriNamePieces')), 1)]]",
         "scriptFileBreakString": "[split(variables('scriptFileString'), '?')]",
         "scriptFileName": "[variables('scriptFileBreakString')[0]]",
-        "attendedBot" : "[concat ('powershell -ExecutionPolicy Unrestricted -File ',' ', variables('scriptFileName'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('Tennant'),' ','-orchAdmin',' ',parameters('orchAdmin'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ',parameters('HostingType'),' ','-RobotType',' ',parameters('RobotType'),' ','-adminUsername',' ',parameters('adminUsername'))]",
-        "unattendedBot": "[concat ('powershell -ExecutionPolicy Unrestricted -File ',' ', variables('scriptFileName'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('Tennant'),' ','-orchAdmin',' ',parameters('orchAdmin'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ',parameters('HostingType'),' ','-RobotType',' ',parameters('RobotType'),' ','-adminUsername',' ',parameters('adminUsername'),' ','-machinePassword',' ',parameters('adminPassword'),' ','-credType',' ',parameters('CredentialType'))]"
+        "attendedBot" : "[concat ('powershell -ExecutionPolicy Unrestricted -File ',' ', variables('scriptFileName'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('Tennant'),' ','-orchAdmin',' ',parameters('orchAdmin'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ',variables('HostingType'),' ','-RobotType',' ',parameters('RobotType'),' ','-adminUsername',' ',parameters('adminUsername'))]",
+        "unattendedBot": "[concat ('powershell -ExecutionPolicy Unrestricted -File ',' ', variables('scriptFileName'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('Tennant'),' ','-orchAdmin',' ',parameters('orchAdmin'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ',variables('HostingType'),' ','-RobotType',' ',parameters('RobotType'),' ','-adminUsername',' ',parameters('adminUsername'),' ','-machinePassword',' ',parameters('adminPassword'),' ','-credType',' ',variables('CredentialType'))]"
     },
     "resources": [
         {
