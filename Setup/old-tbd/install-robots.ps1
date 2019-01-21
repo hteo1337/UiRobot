@@ -23,7 +23,7 @@ function Main {
     New-Item -ItemType Directory -Path $script:tempDirectory | Out-Null
 
     #download UiPlatform
-    $msiName = 'UiPathPlatform.msi'
+    $msiName = 'UiPathStudio.msi'
     $msiPath = Join-Path $script:tempDirectory $msiName
     Download-File -url "https://download.uipath.com/UiPathStudio.msi" -outputFile $msiPath
 
