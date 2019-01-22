@@ -35,7 +35,11 @@
       Download-File -url "https://download.uipath.com/UiPathStudio.msi" -outputFile $msiPath
 
       #install the Robot
-      $msiFeatures = @("DesktopFeature","Robot","StartupLauncher","RegisterService","Packages")
+      if($RobotType = 'Attended') {
+        $msiFeatures = @("DesktopFeature","Robot","Studio","StartupLauncher","RegisterService","Packages")
+      } else {
+        $msiFeatures = @("DesktopFeature","Robot","StartupLauncher","RegisterService","Packages")
+      }
 
       $installResult = Install-Robot -msiPath $msiPath -msiFeatures $msiFeatures
 
