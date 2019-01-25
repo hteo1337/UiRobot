@@ -60,13 +60,10 @@
          rememberMe = $true
          } | ConvertTo-Json
      Write-Host "**********************"
-     $orchUrl_login = "$orchestratorUrl/api/Account/Authenticate"
+     $orchUrl_login = "$orchestratorUrl/account/login"
 
      # login API call to get the login session used for all requests
-     $webresponse = Invoke-WebRequest -Uri $orchUrl_login -Method Post -Body $dataLogin -ContentType "application/json" -UseBasicParsing -Session websession
-
-
-     $cookies = $websession.Cookies.GetCookies($orchUrl_login)
+     $orchWebresponse = Invoke-RestMethod -Uri $orchUrl_login -Method Post -Body $dataLogin -ContentType "application/json" -UseBasicParsing -Session websession
 
      if ($RobotType -eq 'Unattended') {
       $dataRobot = @{
