@@ -60,7 +60,7 @@
          rememberMe = $true
          } | ConvertTo-Json
      Write-Host "**********************"
-     $orchUrl_login = "$orchestratorUrl/account/login"
+     $orchUrl_login = "$orchestratorUrl/api/Account/Authenticate"
 
      # login API call to get the login session used for all requests
      $webresponse = Invoke-WebRequest -Uri $orchUrl_login -Method Post -Body $dataLogin -ContentType "application/json" -UseBasicParsing -Session websession
@@ -86,7 +86,6 @@
        Username = $adminUsername
        Type = $RobotType
        HostingType = $HostingType
-       Password = $orchPassword
        Name = $env:computername
        ExecutionSettings=@{}} | ConvertTo-Json
 
