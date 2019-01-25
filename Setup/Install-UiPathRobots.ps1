@@ -10,11 +10,15 @@
         [String] $orchPassword,
         [Parameter(Mandatory = $true)]
         [string] $adminUsername,
+        [Parameter()]
+        [AllowEmptyString()]
         [string] $machinePassword,
         [Parameter(Mandatory = $true)]
         [string] $HostingType,
         [Parameter(Mandatory = $true)]
         [string] $RobotType,
+        [Parameter()]
+        [AllowEmptyString()]
         [string] $credType
 
     )
@@ -35,7 +39,7 @@
       Download-File -url "https://download.uipath.com/UiPathStudio.msi" -outputFile $msiPath
 
       #install the Robot
-      if($RobotType = 'Attended') {
+      if($RobotType -eq "Attended") {
         $msiFeatures = @("DesktopFeature","Robot","Studio","StartupLauncher","RegisterService","Packages")
       } else {
         $msiFeatures = @("DesktopFeature","Robot","StartupLauncher","RegisterService","Packages")
