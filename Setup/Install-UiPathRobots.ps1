@@ -10,13 +10,15 @@
         [String] $orchPassword,
         [Parameter(Mandatory = $true)]
         [string] $adminUsername,
-        [Parameter(Mandatory = $true)]
+        [Parameter()]
+        [AllowEmptyString()]
         [string] $machinePassword,
         [Parameter(Mandatory = $true)]
         [string] $HostingType,
         [Parameter(Mandatory = $true)]
         [string] $RobotType,
-        [Parameter(Mandatory = $true)]
+        [Parameter()]
+        [AllowEmptyString()]
         [string] $credType
 
     )

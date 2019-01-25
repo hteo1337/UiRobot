@@ -103,7 +103,9 @@
         "scriptFileString": "[variables('scriptUriNamePieces')[sub(length(variables('scriptUriNamePieces')), 1)]]",
         "scriptFileBreakString": "[split(variables('scriptFileString'), '?')]",
         "scriptFileName": "[variables('scriptFileBreakString')[0]]",
-        "uiBot": "[concat ('powershell -ExecutionPolicy Unrestricted -File ',' ', variables('scriptFileName'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('Tennant'),' ','-orchAdmin',' ',parameters('orchAdmin'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ',variables('HostingType'),' ','-RobotType',' ',parameters('RobotType'),' ','-adminUsername',' ',parameters('adminUsername'),' ','-machinePassword',' ',parameters('adminPassword'),' ','-credType',' ',variables('CredentialType'))]"
+        "attendedBot" : "[concat ('powershell -ExecutionPolicy Unrestricted -File ',' ', variables('scriptFileName'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('Tennant'),' ','-orchAdmin',' ',parameters('orchAdmin'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ',variables('HostingType'),' ','-RobotType',' ',parameters('RobotType'),' ','-adminUsername',' ',parameters('adminUsername'))]",
+        "unattendedBot": "[concat ('powershell -ExecutionPolicy Unrestricted -File ',' ', variables('scriptFileName'),' ','-orchestratorUrl',' ',parameters('orchestratorUrl'),' ','-Tennant',' ',parameters('Tennant'),' ','-orchAdmin',' ',parameters('orchAdmin'),' ','-orchPassword',' ',parameters('orchPassword'),' ','-HostingType',' ',variables('HostingType'),' ','-RobotType',' ',parameters('RobotType'),' ','-adminUsername',' ',parameters('adminUsername'),' ','-machinePassword',' ',parameters('adminPassword'),' ','-credType',' ',variables('CredentialType'))]"
+
     },
     "resources": [
         {
@@ -296,7 +298,7 @@
                     "fileUris": "[split(variables('scriptUriBase'), ' ')]"
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[variables('uiBot')]"
+                    "commandToExecute": "[if(equals(parameters('RobotType'), 'Attended'),variables('attendedBot'),variables('unattendedBot'))]"
                 }
             },
             "dependsOn": [
