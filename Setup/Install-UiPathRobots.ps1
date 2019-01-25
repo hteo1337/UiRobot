@@ -57,16 +57,16 @@
          tenancyName = $Tennant
          usernameOrEmailAddress = $orchAdmin
          password = $orchPassword
-         rememberMe = $true
-         } | ConvertTo-Json
-     Write-Host "**********************"
+        } | ConvertTo-Json
+
      $orchUrl_login = "$orchestratorUrl/account/login"
 
+
+
      # login API call to get the login session used for all requests
-     $webresponse = Invoke-WebRequest -Uri $orchUrl_login -Method Post -Body $dataLogin -ContentType "application/json" -UseBasicParsing -Session websession
+     $orchWebResponse = Invoke-RestMethod -Uri $orchUrl_login -Method Post -Body $dataLogin -ContentType "application/json" -UseBasicParsing -Session websession
 
-
-     $cookies = $websession.Cookies.GetCookies($orchUrl_login)
+     Write-Host $orchWebResponse
 
      if ($RobotType -eq 'Unattended') {
       $dataRobot = @{
@@ -86,18 +86,19 @@
        Username = $adminUsername
        Type = $RobotType
        HostingType = $HostingType
-       Password = $orchPassword
        Name = $env:computername
        ExecutionSettings=@{}} | ConvertTo-Json
 
    }
 
       $orch_bot = "$orchestratorUrl/odata/Robots"
-      Write-Host $orch_bot
 
-      $webresponse = Invoke-RestMethod -Uri $orch_bot -Method Post -Body $dataRobot -ContentType "application/json" -UseBasicParsing -WebSession $websession
 
-      $key = $webresponse.LicenseKey
+      $botWebResponse = Invoke-RestMethod -Uri $orch_bot -Method Post -Body $dataRobot -ContentType "application/json" -UseBasicParsing -WebSession $websession
+
+      Write-Host $botWebResponse
+
+      $key = $botWebResponse.LicenseKey
 
       Write-Host $key
       &    $robotExePath --connect -url  $orchestratorUrl -key $key

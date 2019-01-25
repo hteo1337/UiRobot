@@ -10,3 +10,4 @@ Setup/to be deleted/old-tbd/unattended-robots.ps1
 Setup/to be deleted/Prereq/features-w2k8.xml
 Setup/to be deleted/Prereq/Install-RolesAndFeatures.ps1
 Setup/to be deleted/Prereq/RolesAndFeatures.xml
+Setup/oldRobots/Install-UiPathRobots.ps1
