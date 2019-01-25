@@ -68,7 +68,7 @@
 
      Write-Host $orchWebResponse
 
-     if ($RobotType -eq 'Unattended') {
+     if ($RobotType -eq "Unattended") {
       $dataRobot = @{
        MachineName = $env:computername
        Username = $adminUsername
