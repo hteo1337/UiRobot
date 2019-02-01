@@ -62,7 +62,7 @@
       },
       "continueFromLastVM" : {
       "type": "int",
-      "defaultValue": "0",
+      "defaultValue": 0,
         "metadata" : {
             "description" : "Continue from Last VM name index"
         }
