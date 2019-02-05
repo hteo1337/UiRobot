@@ -27,63 +27,76 @@
 $ErrorActionPreference = "SilentlyContinue"
 #Script Version
 $sScriptVersion = "1.0"
+#Debug mode; $true - enabled ; $false - disabled
+$sDebug = $true
 #Log File Info
 $sLogPath = "C:\Windows\Temp"
 $sLogName = "Install-UiPathRobot.log"
 $sLogFile = Join-Path -Path $sLogPath -ChildPath $sLogName
+#Orchestrator SSL check
+$orchSSLcheck = $false
 
 function Main {
 
-    Begin{
+  Begin{
 
-      # log log log
+      #Log log log
       Log-Write -LogPath $sLogFile -LineValue "Install-UiRobot starts"
 
-      #define TLS for Invoke-WebRequest
+      #Define TLS for Invoke-WebRequest
       [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-      #setup temp dir in %appdata%\Local\Temp
+      if(!$orchSSLcheck) {
+
+        [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
+
+      }
+
+      #Setup temp dir in %appdata%\Local\Temp
       $script:tempDirectory = (Join-Path $ENV:TEMP "UiPath-$(Get-Date -f "yyyyMMddhhmmssfff")")
       New-Item -ItemType Directory -Path $script:tempDirectory | Out-Null
 
-      #download UiPlatform
+      #Download UiPlatform
       $msiName = 'UiPathStudio.msi'
       $msiPath = Join-Path $script:tempDirectory $msiName
       Download-File -url "https://download.uipath.com/UiPathStudio.msi" -outputFile $msiPath
 
 
-    }
+  }
 
-    Process {
+  Process {
 
-    #install the Robot
+    #Get Robot path
+    $robotExePath = Get-UiRobotExePath
+
+    if(!(Test-Path $robotExePath)) {
+
+    #Log log log
+    Log-Write -LogPath $sLogFile -LineValue "Installing UiPath Robot Type [$RobotType]"
+
+        #Install the Robot
         if($RobotType -eq "Unattended") {
-
+                # log log log
+                Log-Write -LogPath $sLogFile -LineValue "Installing UiPath Robot without Studio Feature"
                 $msiFeatures = @("DesktopFeature","Robot","StartupLauncher","RegisterService","Packages")
-
         } else {
-
+                # log log log
+                Log-Write -LogPath $sLogFile -LineValue "Installing UiPath Robot with Studio Feature"
                 $msiFeatures = @("DesktopFeature","Robot","Studio","StartupLauncher","RegisterService","Packages")
-
         }
 
         Try{
-
             $installResult = Install-Robot -msiPath $msiPath -msiFeatures $msiFeatures
-
         }
 
         Catch{
-
             Log-Error -LogPath $sLogFile -ErrorDesc $_.Exception -ExitGracefully $True
             Break
-
         }
 
-    #end Robot installation
+        #End Robot installation
 
-    #get Robot path
-    $robotExePath = Get-UiRobotExePath
+    }
 
 
     Try {
@@ -92,12 +105,18 @@ function Main {
             tenancyName = $Tennant
             usernameOrEmailAddress = $orchAdmin
             password = $orchPassword
-           } | ConvertTo-Json
+        } | ConvertTo-Json
 
         $orchUrl_login = "$orchestratorUrl/account/login"
 
         # login API call to get the login session used for all requests
         $orchWebResponse = Invoke-RestMethod -Uri $orchUrl_login -Method Post -Body $dataLogin -ContentType "application/json" -UseBasicParsing -Session websession
+
+      # log log log
+      if($sDebug) {
+        Log-Write -LogPath $sLogFile -LineValue "Logging Orchestrator Web Response"
+        Log-Write -LogPath $sLogFile -LineValue $orchWebResponse
+      }
 
     }
     Catch {
@@ -108,69 +127,69 @@ function Main {
 
     Try {
 
-        #provision Robot Type to Orchestrator
+        #Provision Robot Type to Orchestrator
         if ($RobotType -eq "Unattended" -or "Development") {
             $dataRobot = @{
-             MachineName = $env:computername
-             Username = $adminUsername
-             Type = $RobotType
-             HostingType = $HostingType
-             Password = $machinePassword
-             CredentialType = $credType
-             Name = $env:computername
-             ExecutionSettings=@{}} | ConvertTo-Json
-
+              MachineName = $env:computername
+              Username = $adminUsername
+              Type = $RobotType
+              HostingType = $HostingType
+              Password = $machinePassword
+              CredentialType = $credType
+              Name = $env:computername
+              ExecutionSettings=@{}} | ConvertTo-Json
         } else {
-
-          $dataRobot = @{
-           MachineName = $env:computername
-           Username = $adminUsername
-           Type = $RobotType
-           HostingType = $HostingType
-           Name = $env:computername
-           ExecutionSettings=@{}} | ConvertTo-Json
-
+            $dataRobot = @{
+              MachineName = $env:computername
+              Username = $adminUsername
+              Type = $RobotType
+              HostingType = $HostingType
+              Name = $env:computername
+              ExecutionSettings=@{}} | ConvertTo-Json
         }
 
         $orch_bot = "$orchestratorUrl/odata/Robots"
-
-
         $botWebResponse = Invoke-RestMethod -Uri $orch_bot -Method Post -Body $dataRobot -ContentType "application/json" -UseBasicParsing -WebSession $websession
 
-        #get Robot key
+        #Log log log
+        if($sDebug) {
+        Log-Write -LogPath $sLogFile -LineValue "Logging Orchestrator Bot Web Response"
+        Log-Write -LogPath $sLogFile -LineValue $botWebResponse
+        }
+
+        #Get Robot key
         $key = $botWebResponse.LicenseKey
 
-         #connect Robot to Orchestrator with Robot key
-         $connectRobot= & $robotExePath --connect -url  $orchestratorUrl -key $key
+        #Connect Robot to Orchestrator with Robot key
+        $connectRobot= & $robotExePath --connect -url  $orchestratorUrl -key $key
 
     }
     Catch {
-
         Log-Error -LogPath $sLogFile -ErrorDesc $botWebResponse -ExitGracefully $True
         Log-Error -LogPath $sLogFile -ErrorDesc $connectRobot -ExitGracefully $True
         Break
     }
 
 
-    #starting Robot
+    #Starting Robot
     start-process -filepath $robotExePath -verb runas
 
-    #remove temp directory
+    #Remove temp directory
     Log-Write -LogPath $sLogFile -LineValue "Removing temp directory $($script:tempDirectory)"
     Remove-Item $script:tempDirectory -Recurse -Force | Out-Null
 
-    }
+  }
 
-    End {
+  End {
 
         If($?){
         Log-Write -LogPath $sLogFile -LineValue "Completed Successfully."
         Log-Write -LogPath $sLogFile -LineValue " "
       }
 
-    }
-
   }
+
+}
 <#
   .DESCRIPTION
   Installs an MSI by calling msiexec.exe, with verbose logging
@@ -372,6 +391,8 @@ function Log-Start {
       Add-Content -Path $sFullPath -Value ""
       Add-Content -Path $sFullPath -Value "Running script version [$ScriptVersion]."
       Add-Content -Path $sFullPath -Value ""
+      Add-Content -Path $sFullPath -Value "Running with debug mode [$sDebug]."
+      Add-Content -Path $sFullPath -Value ""
       Add-Content -Path $sFullPath -Value "***************************************************************************************************"
       Add-Content -Path $sFullPath -Value ""
 
@@ -381,6 +402,8 @@ function Log-Start {
       Write-Debug "***************************************************************************************************"
       Write-Debug ""
       Write-Debug "Running script version [$ScriptVersion]."
+      Write-Debug ""
+      Write-Debug "Running with debug mode [$sDebug]."
       Write-Debug ""
       Write-Debug "***************************************************************************************************"
       Write-Debug ""
@@ -487,7 +510,7 @@ function Log-Error {
     Writes finishing logging data to specified log and then exits the calling script
 
   .PARAMETER LogPath
-    Mandatory. Full path of the log file you want to write finishing data to. Example: C:\Windows\Temp\Test_Script.log
+    Mandatory. Full path of the log file you want to write finishing data to. Example: C:\Windows\Temp\Script.log
 
   .PARAMETER NoExit
     Optional. If this is set to True, then the function will not exit the calling script, so that further execution can occur
@@ -515,12 +538,14 @@ function Log-Finish {
       Add-Content -Path $LogPath -Value "***************************************************************************************************"
       Add-Content -Path $LogPath -Value "Finished processing at [$([DateTime]::Now)]."
       Add-Content -Path $LogPath -Value "***************************************************************************************************"
+      Add-Content -Path $LogPath -Value ""
 
       #Write to screen for debug mode
       Write-Debug ""
       Write-Debug "***************************************************************************************************"
       Write-Debug "Finished processing at [$([DateTime]::Now)]."
       Write-Debug "***************************************************************************************************"
+      Write-Debug ""
 
       #Exit calling script if NoExit has not been specified or is set to False
       If(!($NoExit) -or ($NoExit -eq $False)){
