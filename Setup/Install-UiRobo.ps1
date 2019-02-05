@@ -26,7 +26,7 @@
 #Set Error Action to Silently Continue
 $ErrorActionPreference = "SilentlyContinue"
 #Script Version
-$sScriptVersion = "1.0"
+$sScriptVersion = "1.1"
 #Debug mode; $true - enabled ; $false - disabled
 $sDebug = $true
 #Log File Info
@@ -47,6 +47,9 @@ function Main {
       [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
       if(!$orchSSLcheck) {
+
+        #Log log log
+        Log-Write -LogPath $sLogFile -LineValue "SSL Validation callback [$orchSSLcheck]"
 
         [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
 
