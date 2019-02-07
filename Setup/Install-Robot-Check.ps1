@@ -122,7 +122,7 @@ function Main {
     Catch {
 
         Log-Error -LogPath $sLogFile -ErrorDesc $orchWebResponse -ExitGracefully $True
-      #  Break
+        Break
     }
 
     Try {
@@ -161,11 +161,12 @@ function Main {
 
     }
     Catch {
+
+        $addExceptionMsg = $_.Exception.Message
         Log-Error -LogPath $sLogFile -ErrorDesc $botWebResponse -ExitGracefully $True
         Log-Write -LogPath $sLogFile -ErrorDesc $waitForRobotSVC -ExitGracefully $True
         Log-Error -LogPath $sLogFile -ErrorDesc $connectRobot -ExitGracefully $True
-        $addExceptionMsg = $_.Exception.Message
-        #Break
+        Break
     }
 
     Finally{
@@ -187,7 +188,7 @@ function Main {
 
       $orchMachines = "$orchestratorUrl/odata/Machines"
 
-      $getbotWebResponse = Invoke-RestMethod -Uri $orch_machines -Method GET -ContentType "application/json" -UseBasicParsing -WebSession $websession
+      $getbotWebResponse = Invoke-RestMethod -Uri $orchMachines -Method GET -ContentType "application/json" -UseBasicParsing -WebSession $websession
 
 
       $existingRobot = $getbotWebResponse.value | Where-Object { $_.Name -eq $env:computername } | Select-Object -ExpandProperty id
