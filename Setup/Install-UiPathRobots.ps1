@@ -111,6 +111,23 @@
      #starting Robot
      start-process -filepath $robotExePath -verb runas
 
+     #add Robot to Envs
+     $getOdataEnv = "$orchestratorUrl/odata/Environments"
+
+     $getOdataEnvironment = Invoke-RestMethod -Uri $getOdataEnv -Method Get -ContentType "application/json" -UseBasicParsing -WebSession $websession
+
+         foreach ($roEnv in $getOdataEnvironment.value.Id) {
+
+            $roEnvURL="$orchestratorUrl/odata/Environments($($roEnv))/UiPath.Server.Configuration.OData.AddRobot"
+
+            $dataRobotEnv = @{
+                 robotId = "$($botWebResponse.Id)"
+               } | ConvertTo-Json
+
+            $botToEnvironment = Invoke-RestMethod -Uri $roEnvURL -Method Post -Body $dataRobotEnv -ContentType "application/json" -UseBasicParsing -WebSession $websession
+
+        }
+
       #remove temp directory
       Write-Verbose "Removing temp directory $($script:tempDirectory)"
       Remove-Item $script:tempDirectory -Recurse -Force | Out-Null
