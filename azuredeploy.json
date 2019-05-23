@@ -116,7 +116,7 @@
       }
   },
   "variables": {
-      "scriptUriBase": "https://raw.githubusercontent.com/hteo1337/UiRobot/master/Setup/Install-UiPathRobots.ps1",
+      "scriptUriBase": "https://raw.githubusercontent.com/hteo1337/UiRobot/master/Setup/Install-UiRobot.ps1",
       "HostingType": "Standard",
       "CredentialType": "Default",
       "vmName": "[parameters('virtualMachineName')]",
