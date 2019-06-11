@@ -26,7 +26,10 @@ Param (
   [string] $robotArtifact = "https://download.uipath.com/UiPathStudio.msi",
 	[Parameter()]
   [AllowEmptyString()]
-  [string]$artifactFileName = "UiPathStudio.msi"
+  [string]$artifactFileName = "UiPathStudio.msi",
+  [Parameter()]
+  [ValidateSet("Yes", "No")]
+  [string]$addRobotsToExistingEnvs = "No"
 )
 #Set Error Action to Silently Continue
 $ErrorActionPreference = "SilentlyContinue"
@@ -245,7 +248,26 @@ function Main {
 
     }
 
+    if ($addRobotsToExistingEnvs -eq "Yes") {
+      
+      #add Robot to existing Envs
+      $getOdataEnv = "$orchestratorUrl/odata/Environments"
 
+      $getOdataEnvironment = Invoke-RestMethod -Uri $getOdataEnv -Method Get -ContentType "application/json" -UseBasicParsing -WebSession $websession
+
+      foreach ($roEnv in $getOdataEnvironment.value.Id) {
+
+          $roEnvURL = "$orchestratorUrl/odata/Environments($($roEnv))/UiPath.Server.Configuration.OData.AddRobot"
+
+          $dataRobotEnv = @{
+              robotId = "$($botWebResponse.Id)"
+          } | ConvertTo-Json
+
+          $botToEnvironment = Invoke-RestMethod -Uri $roEnvURL -Method Post -Body $dataRobotEnv -ContentType "application/json" -UseBasicParsing -WebSession $websession
+
+      }
+
+  }
 
   }
 
