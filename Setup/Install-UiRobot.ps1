@@ -12,6 +12,9 @@ Param (
     [string] $adminUsername,
     [Parameter()]
     [AllowEmptyString()]
+    [string] $machineName,
+    [Parameter()]
+    [AllowEmptyString()]
     [string] $machinePassword,
     [Parameter()]
     [ValidateSet("Standard", "Floating")]
@@ -146,27 +149,31 @@ function Main {
         }
 
         Try {
+            # new Machine Name
+            if (!$machineName) {
+                $machineName = $env:computername   
+            }
 
             #Provision Robot Type to Orchestrator
             if ($RobotType -eq "Unattended" -or "Development") {
                 $dataRobot = @{
-                    MachineName       = $env:computername
+                    MachineName       = $machineName
                     Username          = $adminUsername
                     Type              = $RobotType
                     HostingType       = $HostingType
                     Password          = $machinePassword
                     CredentialType    = $credType
-                    Name              = $env:computername
+                    Name              = $machineName
                     ExecutionSettings = @{ }
                 } | ConvertTo-Json
             }
             else {
                 $dataRobot = @{
-                    MachineName       = $env:computername
+                    MachineName       = $machineName
                     Username          = $adminUsername
                     Type              = $RobotType
                     HostingType       = $HostingType
-                    Name              = $env:computername
+                    Name              = $machineName
                     ExecutionSettings = @{ }
                 } | ConvertTo-Json
             }
@@ -204,7 +211,7 @@ function Main {
 
                 #Log log log
                 if ($sDebug) {
-                    Log-Write -LogPath $sLogFile -LineValue "Robot [$env:computername] already exists, trying to connect to [$orchestratorUrl]"
+                    Log-Write -LogPath $sLogFile -LineValue "Robot [$machineName] already exists, trying to connect to [$orchestratorUrl]"
                 }
 
                 $orchMachines = "$orchestratorUrl/odata/Machines"
@@ -212,7 +219,7 @@ function Main {
                 $getbotWebResponse = Invoke-RestMethod -Uri $orchMachines -Method GET -ContentType "application/json" -UseBasicParsing -WebSession $websession
 
 
-                $existingRobot = $getbotWebResponse.value | Where-Object { $_.Name -eq $env:computername } | Select-Object -ExpandProperty id
+                $existingRobot = $getbotWebResponse.value | Where-Object { $_.Name -eq $machineName } | Select-Object -ExpandProperty id
 
                 $getMachineLicense = "$orchestratorUrl/odata/Machines($existingRobot)"
 
